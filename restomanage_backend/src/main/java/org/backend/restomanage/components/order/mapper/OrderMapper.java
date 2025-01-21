@@ -11,7 +11,7 @@ import org.mapstruct.MappingTarget;
 @Mapper(componentModel = "spring", uses = {MealMapper.class})
 public interface OrderMapper {
     
-    @Mapping(target = "menu", source = "mealId")
+    @Mapping(target = "menu.id", source = "mealId")
     @Mapping(target = "reservation.id", source = "reservationId")
     Order toEntity(OrderRequestDTO orderRequestDTO);
     
@@ -20,7 +20,7 @@ public interface OrderMapper {
     OrderResponseDTO toDTO(Order order);
     
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "menu", source = "mealId")
+    @Mapping(target = "menu.id", source = "mealId")
     @Mapping(target = "reservation.id", source = "reservationId")
     void updateEntityFromDTO(OrderRequestDTO orderRequestDTO, @MappingTarget Order order);
 }
