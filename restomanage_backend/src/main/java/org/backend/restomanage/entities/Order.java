@@ -28,5 +28,5 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "menu_id")
-    private Meals menu;
+    private Meal menu;
 }
