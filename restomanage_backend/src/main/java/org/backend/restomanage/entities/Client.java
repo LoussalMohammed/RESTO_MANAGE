@@ -8,8 +8,10 @@ import lombok.Setter;
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
+@Table(name = "clients")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Client {
 
     @Id
