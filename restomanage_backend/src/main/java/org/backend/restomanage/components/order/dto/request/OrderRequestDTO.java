@@ -14,7 +14,4 @@ public class OrderRequestDTO {
 
     @Min(value = 1, message = "Quantity must be at least 1")
     private int quantity;
-
-    @NotNull(message = "Estimated time to prepare is mandatory")
-    private String estimatedTimeToPrepare;
 }

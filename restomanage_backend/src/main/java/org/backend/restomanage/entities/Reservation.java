@@ -18,6 +18,10 @@ public class Reservation {
     @JoinColumn(name = "client_id", nullable = false)
     private Client client;
 
+    @ManyToOne
+    @JoinColumn(name = "restaurant_id", nullable = false)
+    private RestaurantSettings restaurant;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private PaymentStatus paymentStatus;

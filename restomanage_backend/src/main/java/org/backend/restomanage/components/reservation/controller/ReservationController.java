@@ -5,8 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.backend.restomanage.components.reservation.dto.request.ReservationRequestDTO;
 import org.backend.restomanage.components.reservation.dto.response.ReservationResponseDTO;
 import org.backend.restomanage.components.reservation.service.ReservationService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.backend.restomanage.enums.PaymentStatus;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,24 +29,28 @@ public class ReservationController {
         return ResponseEntity.ok(reservationService.getReservationById(id));
     }
 
-    @GetMapping
-    public ResponseEntity<Page<ReservationResponseDTO>> getAllReservations(Pageable pageable) {
-        return ResponseEntity.ok(reservationService.getAllReservations(pageable));
-    }
-
     @GetMapping("/by-client/{clientId}")
     public ResponseEntity<List<ReservationResponseDTO>> getReservationsByClient(@PathVariable Long clientId) {
         return ResponseEntity.ok(reservationService.getReservationsByClient(clientId));
     }
 
-    @GetMapping("/by-payment-status/{status}")
-    public ResponseEntity<List<ReservationResponseDTO>> getReservationsByPaymentStatus(@PathVariable String status) {
-        return ResponseEntity.ok(reservationService.getReservationsByPaymentStatus(status));
+    @GetMapping("/by-restaurant/{restaurantId}")
+    public ResponseEntity<List<ReservationResponseDTO>> getReservationsByRestaurant(@PathVariable Long restaurantId) {
+        return ResponseEntity.ok(reservationService.getReservationsByRestaurant(restaurantId));
     }
 
-    @GetMapping("/takeaway")
-    public ResponseEntity<List<ReservationResponseDTO>> getTakeawayOrders(@RequestParam(defaultValue = "true") boolean isTakeaway) {
-        return ResponseEntity.ok(reservationService.getTakeawayOrders(isTakeaway));
+    @GetMapping("/by-restaurant/{restaurantId}/status/{status}")
+    public ResponseEntity<List<ReservationResponseDTO>> getReservationsByRestaurantAndStatus(
+            @PathVariable Long restaurantId,
+            @PathVariable PaymentStatus status) {
+        return ResponseEntity.ok(reservationService.getReservationsByRestaurantAndStatus(restaurantId, status));
+    }
+
+    @GetMapping("/by-client/{clientId}/restaurant/{restaurantId}")
+    public ResponseEntity<List<ReservationResponseDTO>> getReservationsByClientAndRestaurant(
+            @PathVariable Long clientId,
+            @PathVariable Long restaurantId) {
+        return ResponseEntity.ok(reservationService.getReservationsByClientAndRestaurant(clientId, restaurantId));
     }
 
     @PutMapping("/{id}")
