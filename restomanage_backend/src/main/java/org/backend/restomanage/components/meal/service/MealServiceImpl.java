@@ -57,7 +57,7 @@ public class MealServiceImpl implements MealService {
     @Override
     @Transactional(readOnly = true)
     public List<MealResponseDTO> getAvailableMeals() {
-        return mealRepository.findByIsAvailable(true)
+        return mealRepository.findByAvailable(true)
                 .stream()
                 .map(mealMapper::toDTO)
                 .collect(Collectors.toList());

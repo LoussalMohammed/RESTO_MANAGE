@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface MealRepository extends JpaRepository<Meal, Long> {
-    List<Meal> findByIsAvailable(boolean isAvailable);
+    List<Meal> findByAvailable(boolean available);
     boolean existsByName(String name);
 }
