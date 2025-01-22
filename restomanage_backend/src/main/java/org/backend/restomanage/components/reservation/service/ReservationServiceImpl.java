@@ -6,6 +6,7 @@ import org.backend.restomanage.components.reservation.dto.request.ReservationReq
 import org.backend.restomanage.components.reservation.dto.response.ReservationResponseDTO;
 import org.backend.restomanage.components.reservation.mapper.ReservationMapper;
 import org.backend.restomanage.components.reservation.repository.ReservationRepository;
+import org.backend.restomanage.entities.Client;
 import org.backend.restomanage.entities.Reservation;
 import org.backend.restomanage.exception.ResourceNotFoundException;
 import org.springframework.data.domain.Page;
@@ -27,12 +28,12 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public ReservationResponseDTO createReservation(ReservationRequestDTO reservationRequestDTO) {
-        // Validate client
-        if (!clientRepository.existsById(reservationRequestDTO.getClientId())) {
-            throw new ResourceNotFoundException("Client not found with id: " + reservationRequestDTO.getClientId());
-        }
+        // Validate and get client
+        Client client = clientRepository.findById(reservationRequestDTO.getClientId())
+                .orElseThrow(() -> new ResourceNotFoundException("Client not found with id: " + reservationRequestDTO.getClientId()));
 
         Reservation reservation = reservationMapper.toEntity(reservationRequestDTO);
+        reservation.setClient(client); // Set the complete client entity
         reservation = reservationRepository.save(reservation);
         return reservationMapper.toDTO(reservation);
     }
