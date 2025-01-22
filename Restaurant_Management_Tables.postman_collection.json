@@ -1,0 +1,145 @@
+{
+	"info": {
+		"_postman_id": "unique-id",
+		"name": "Restaurant Management - Tables",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Table",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"number\": \"T001\",\n    \"capacity\": 4,\n    \"section\": \"Main Hall\",\n    \"status\": \"AVAILABLE\",\n    \"qrCode\": \"TABLE-T001\",\n    \"restaurantId\": 1\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/tables",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "8080",
+					"path": ["api", "v1", "tables"]
+				}
+			}
+		},
+		{
+			"name": "Get All Tables",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/tables",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "8080",
+					"path": ["api", "v1", "tables"]
+				}
+			}
+		},
+		{
+			"name": "Get Table by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/tables/1",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "8080",
+					"path": ["api", "v1", "tables", "1"]
+				}
+			}
+		},
+		{
+			"name": "Get Tables by Restaurant",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/tables/restaurant/1",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "8080",
+					"path": ["api", "v1", "tables", "restaurant", "1"]
+				}
+			}
+		},
+		{
+			"name": "Get Tables by Status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/tables/status/AVAILABLE",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "8080",
+					"path": ["api", "v1", "tables", "status", "AVAILABLE"]
+				}
+			}
+		},
+		{
+			"name": "Update Table",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"number\": \"T001\",\n    \"capacity\": 6,\n    \"section\": \"Main Hall\",\n    \"status\": \"AVAILABLE\",\n    \"qrCode\": \"TABLE-T001\",\n    \"restaurantId\": 1\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/tables/1",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "8080",
+					"path": ["api", "v1", "tables", "1"]
+				}
+			}
+		},
+		{
+			"name": "Update Table Status",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/tables/1/status?status=OCCUPIED",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "8080",
+					"path": ["api", "v1", "tables", "1", "status"],
+					"query": [
+						{
+							"key": "status",
+							"value": "OCCUPIED"
+						}
+					]
+				}
+			}
+		},
+		{
+			"name": "Delete Table",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/tables/1",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "8080",
+					"path": ["api", "v1", "tables", "1"]
+				}
+			}
+		}
+	]
+}

@@ -21,4 +21,7 @@ public class DiningTableRequestDTO {
     private TableStatus status = TableStatus.AVAILABLE;
 
     private String qrCode;
+
+    @NotNull(message = "Restaurant ID is required")
+    private Long restaurantId;
 }
