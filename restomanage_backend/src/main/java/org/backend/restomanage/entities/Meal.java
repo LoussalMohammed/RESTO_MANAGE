@@ -1,6 +1,5 @@
 package org.backend.restomanage.entities;
 
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;

@@ -1,5 +1,6 @@
 package org.backend.restomanage.components.meal.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
@@ -13,5 +14,6 @@ public class MealRequestDTO {
 
     private String image;
 
+    @JsonProperty("isAvailable")
     private boolean isAvailable;
 }

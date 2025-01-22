@@ -1,6 +1,7 @@
 package org.backend.restomanage.components.meal.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.backend.restomanage.components.meal.dto.request.MealRequestDTO;
 import org.backend.restomanage.components.meal.dto.response.MealResponseDTO;
 import org.backend.restomanage.components.meal.mapper.MealMapper;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class MealServiceImpl implements MealService {
 
     private final MealRepository mealRepository;
@@ -29,6 +31,8 @@ public class MealServiceImpl implements MealService {
         if (mealRepository.existsByName(mealRequestDTO.getName())) {
             throw new DuplicateResourceException("Meal with this name already exists");
         }
+
+        log.info("does meal available: {}", mealRequestDTO.isAvailable());
 
         Meal meal = mealMapper.toEntity(mealRequestDTO);
         meal = mealRepository.save(meal);
