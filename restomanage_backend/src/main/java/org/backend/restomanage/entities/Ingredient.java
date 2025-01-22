@@ -4,8 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -28,6 +29,27 @@ public class Ingredient {
     @Column(nullable = false)
     private double minQuantity;
 
-    @OneToMany(mappedBy = "ingredient", cascade = CascadeType.ALL)
-    private List<MealIngredient> mealIngredients = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id", nullable = false)
+    private RestaurantSettings restaurant;
+
+    @OneToMany(mappedBy = "ingredient", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<MealIngredient> mealIngredients = new HashSet<>();
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
 }
