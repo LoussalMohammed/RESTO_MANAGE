@@ -22,8 +22,8 @@ public class StaffController {
     private final StaffService staffService;
 
     @PostMapping
-    public ResponseEntity<StaffResponseDTO> createStaff(@Valid @RequestBody StaffRequestDTO staffRequestDTO) {
-        return new ResponseEntity<>(staffService.createStaff(staffRequestDTO), HttpStatus.CREATED);
+    public ResponseEntity<StaffResponseDTO> createStaff(@Valid @RequestBody StaffRequestDTO requestDTO) {
+        return new ResponseEntity<>(staffService.createStaff(requestDTO), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
@@ -41,26 +41,33 @@ public class StaffController {
         return ResponseEntity.ok(staffService.getAllStaff(pageable));
     }
 
-    @GetMapping("/active")
-    public ResponseEntity<Page<StaffResponseDTO>> getActiveStaff(Pageable pageable) {
-        return ResponseEntity.ok(staffService.getActiveStaff(pageable));
-    }
-
     @GetMapping("/role/{role}")
     public ResponseEntity<List<StaffResponseDTO>> getStaffByRole(@PathVariable StaffRole role) {
         return ResponseEntity.ok(staffService.getStaffByRole(role));
     }
 
+    @GetMapping("/restaurant/{restaurantId}")
+    public ResponseEntity<List<StaffResponseDTO>> getStaffByRestaurant(@PathVariable Long restaurantId) {
+        return ResponseEntity.ok(staffService.getStaffByRestaurant(restaurantId));
+    }
+
+    @GetMapping("/restaurant/{restaurantId}/role/{role}")
+    public ResponseEntity<List<StaffResponseDTO>> getStaffByRestaurantAndRole(
+            @PathVariable Long restaurantId,
+            @PathVariable StaffRole role) {
+        return ResponseEntity.ok(staffService.getStaffByRestaurantAndRole(restaurantId, role));
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<StaffResponseDTO> updateStaff(
             @PathVariable Long id,
-            @Valid @RequestBody StaffRequestDTO staffRequestDTO) {
-        return ResponseEntity.ok(staffService.updateStaff(id, staffRequestDTO));
+            @Valid @RequestBody StaffRequestDTO requestDTO) {
+        return ResponseEntity.ok(staffService.updateStaff(id, requestDTO));
     }
 
-    @PutMapping("/{id}/toggle-status")
-    public ResponseEntity<StaffResponseDTO> toggleStaffStatus(@PathVariable Long id) {
-        return ResponseEntity.ok(staffService.toggleStaffStatus(id));
+    @PatchMapping("/{id}/toggle-active")
+    public ResponseEntity<StaffResponseDTO> toggleStaffActive(@PathVariable Long id) {
+        return ResponseEntity.ok(staffService.toggleStaffActive(id));
     }
 
     @DeleteMapping("/{id}")
