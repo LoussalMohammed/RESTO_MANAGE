@@ -13,6 +13,8 @@ public class DiningTableResponseDTO {
     private String section;
     private TableStatus status;
     private String qrCode;
+    private Long restaurantId;
+    private String restaurantName;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
