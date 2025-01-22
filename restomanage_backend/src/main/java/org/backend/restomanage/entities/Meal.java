@@ -25,8 +25,6 @@ public class Meal {
 
     private boolean isAvailable;
 
-    @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "meal", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders;
 }
-
-

@@ -11,16 +11,16 @@ import org.mapstruct.MappingTarget;
 @Mapper(componentModel = "spring", uses = {MealMapper.class})
 public interface OrderMapper {
     
-    @Mapping(target = "menu.id", source = "mealId")
+    @Mapping(target = "meal.id", source = "mealId")
     @Mapping(target = "reservation.id", source = "reservationId")
     Order toEntity(OrderRequestDTO orderRequestDTO);
     
-    @Mapping(target = "meal", source = "menu")
+    @Mapping(target = "meal", source = "meal")
     @Mapping(target = "reservationId", source = "reservation.id")
     OrderResponseDTO toDTO(Order order);
     
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "menu.id", source = "mealId")
+    @Mapping(target = "meal.id", source = "mealId")
     @Mapping(target = "reservation.id", source = "reservationId")
     void updateEntityFromDTO(OrderRequestDTO orderRequestDTO, @MappingTarget Order order);
 }

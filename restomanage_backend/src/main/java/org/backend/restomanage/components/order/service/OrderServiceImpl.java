@@ -76,7 +76,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional(readOnly = true)
     public List<OrderResponseDTO> getOrdersByMeal(Long mealId) {
-        return orderRepository.findByMenuId(mealId)
+        return orderRepository.findByMealId(mealId)
                 .stream()
                 .map(orderMapper::toDTO)
                 .collect(Collectors.toList());

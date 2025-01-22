@@ -9,11 +9,13 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface MealMapper {
-    
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "orders", ignore = true)
     Meal toEntity(MealRequestDTO mealRequestDTO);
-    
+
     MealResponseDTO toDTO(Meal meal);
-    
+
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "orders", ignore = true)
     void updateEntityFromDTO(MealRequestDTO mealRequestDTO, @MappingTarget Meal meal);
