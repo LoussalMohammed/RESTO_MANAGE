@@ -1,16 +1,20 @@
 package org.backend.restomanage.components.reservation.dto.request;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import org.backend.restomanage.enums.PaymentStatus;
 
 @Data
 public class ReservationRequestDTO {
-    @NotNull(message = "Client ID is mandatory")
+    @NotNull(message = "Client ID is required")
     private Long clientId;
 
-    @NotBlank(message = "Payment status is mandatory")
-    private String paymentStatus;
+    @NotNull(message = "Restaurant ID is required")
+    private Long restaurantId;
 
+    @NotNull(message = "Payment status is required")
+    private PaymentStatus paymentStatus;
+
+    @NotNull(message = "Takeaway order status is required")
     private boolean isTakeawayOrder;
 }

@@ -22,6 +22,4 @@ public class Order {
 
     @Column(nullable = false)
     private Integer quantity;
-
-    private String estimatedTimeToPrepare;
 }

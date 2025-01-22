@@ -17,6 +17,7 @@ public interface StaffRepository extends JpaRepository<Staff, Long> {
     List<Staff> findByRole(StaffRole role);
     List<Staff> findByRestaurantId(Long restaurantId);
     List<Staff> findByRestaurantIdAndRole(Long restaurantId, StaffRole role);
+    Optional<Staff> findByIdAndRoleAndRestaurantId(Long id, StaffRole role, Long restaurantId);
     boolean existsByUsernameAndIdNot(String username, Long id);
     boolean existsByEmailAndIdNot(String email, Long id);
 }
