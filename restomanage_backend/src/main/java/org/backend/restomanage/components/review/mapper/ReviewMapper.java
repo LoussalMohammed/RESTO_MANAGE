@@ -10,12 +10,14 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring", uses = {ClientMapper.class})
 public interface ReviewMapper {
-    
+
+    @Mapping(target = "id", ignore = true)
     @Mapping(target = "client.id", source = "clientId")
     Review toEntity(ReviewRequestDTO reviewRequestDTO);
-    
+
+    @Mapping(target = "client", source = "client")
     ReviewResponseDTO toDTO(Review review);
-    
+
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "client.id", source = "clientId")
     void updateEntityFromDTO(ReviewRequestDTO reviewRequestDTO, @MappingTarget Review review);

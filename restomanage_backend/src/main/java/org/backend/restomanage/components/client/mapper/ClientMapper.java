@@ -9,12 +9,16 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface ClientMapper {
-    
-    Client toEntity(ClientRequestDTO clientRequestDTO);
-    
-    ClientResponseDTO toDTO(Client client);
-    
+
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    Client toEntity(ClientRequestDTO clientRequestDTO);
+
+    ClientResponseDTO toDTO(Client client);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
     void updateEntityFromDTO(ClientRequestDTO clientRequestDTO, @MappingTarget Client client);
 }

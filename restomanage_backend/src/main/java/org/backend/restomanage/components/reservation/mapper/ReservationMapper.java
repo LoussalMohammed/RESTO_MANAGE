@@ -11,13 +11,16 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring", uses = {ClientMapper.class, OrderMapper.class})
 public interface ReservationMapper {
-    
+
+    @Mapping(target = "id", ignore = true)
     @Mapping(target = "client.id", source = "clientId")
     @Mapping(target = "orders", ignore = true)
     Reservation toEntity(ReservationRequestDTO reservationRequestDTO);
-    
+
+    @Mapping(target = "client", source = "client")
+    @Mapping(target = "orders", source = "orders")
     ReservationResponseDTO toDTO(Reservation reservation);
-    
+
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "client.id", source = "clientId")
     @Mapping(target = "orders", ignore = true)
