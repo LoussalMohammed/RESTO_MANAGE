@@ -28,4 +28,7 @@ public class StaffRequestDTO {
 
     @NotNull(message = "Role is mandatory")
     private StaffRole role;
+
+    @NotNull(message = "Restaurant ID is mandatory")
+    private Long restaurantId;
 }

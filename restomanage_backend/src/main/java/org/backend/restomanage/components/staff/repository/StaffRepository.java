@@ -2,8 +2,6 @@ package org.backend.restomanage.components.staff.repository;
 
 import org.backend.restomanage.entities.Staff;
 import org.backend.restomanage.enums.StaffRole;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -16,6 +14,9 @@ public interface StaffRepository extends JpaRepository<Staff, Long> {
     Optional<Staff> findByEmail(String email);
     boolean existsByUsername(String username);
     boolean existsByEmail(String email);
-    Page<Staff> findByActiveTrue(Pageable pageable);
     List<Staff> findByRole(StaffRole role);
+    List<Staff> findByRestaurantId(Long restaurantId);
+    List<Staff> findByRestaurantIdAndRole(Long restaurantId, StaffRole role);
+    boolean existsByUsernameAndIdNot(String username, Long id);
+    boolean existsByEmailAndIdNot(String email, Long id);
 }

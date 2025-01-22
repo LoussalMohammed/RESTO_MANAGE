@@ -15,6 +15,8 @@ public class StaffResponseDTO {
     private String phoneNumber;
     private StaffRole role;
     private boolean active;
+    private Long restaurantId;
+    private String restaurantName;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
