@@ -21,6 +21,10 @@ public class KitchenOrder {
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
+    @ManyToOne
+    @JoinColumn(name = "restaurant_id", nullable = false)
+    private RestaurantSettings restaurant;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private KitchenStatus status = KitchenStatus.PENDING;
