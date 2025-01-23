@@ -16,10 +16,6 @@ public class Order {
     @JoinColumn(name = "meal_id", nullable = false)
     private Meal meal;
 
-    @ManyToOne
-    @JoinColumn(name = "reservation_id", nullable = false)
-    private Reservation reservation;
-
     @Column(nullable = false)
     private Integer quantity;
 }
