@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.backend.restomanage.components.reservation.dto.request.ReservationRequestDTO;
 import org.backend.restomanage.components.reservation.dto.response.ReservationResponseDTO;
 import org.backend.restomanage.components.reservation.service.ReservationService;
-import org.backend.restomanage.enums.PaymentStatus;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,13 +36,6 @@ public class ReservationController {
     @GetMapping("/by-restaurant/{restaurantId}")
     public ResponseEntity<List<ReservationResponseDTO>> getReservationsByRestaurant(@PathVariable Long restaurantId) {
         return ResponseEntity.ok(reservationService.getReservationsByRestaurant(restaurantId));
-    }
-
-    @GetMapping("/by-restaurant/{restaurantId}/status/{status}")
-    public ResponseEntity<List<ReservationResponseDTO>> getReservationsByRestaurantAndStatus(
-            @PathVariable Long restaurantId,
-            @PathVariable PaymentStatus status) {
-        return ResponseEntity.ok(reservationService.getReservationsByRestaurantAndStatus(restaurantId, status));
     }
 
     @GetMapping("/by-client/{clientId}/restaurant/{restaurantId}")

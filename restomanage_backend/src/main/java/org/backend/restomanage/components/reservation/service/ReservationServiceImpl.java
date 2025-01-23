@@ -11,7 +11,6 @@ import org.backend.restomanage.components.settings.repository.RestaurantSettings
 import org.backend.restomanage.entities.Client;
 import org.backend.restomanage.entities.Reservation;
 import org.backend.restomanage.entities.RestaurantSettings;
-import org.backend.restomanage.enums.PaymentStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,14 +55,6 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<ReservationResponseDTO> getReservationsByRestaurantAndStatus(Long restaurantId, PaymentStatus status) {
-        return reservationRepository.findByRestaurantIdAndPaymentStatus(restaurantId, status).stream()
-                .map(reservationMapper::toDTO)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    @Transactional(readOnly = true)
     public List<ReservationResponseDTO> getReservationsByClient(Long clientId) {
         return reservationRepository.findByClientId(clientId).stream()
                 .map(reservationMapper::toDTO)
@@ -90,7 +81,6 @@ public class ReservationServiceImpl implements ReservationService {
 
         reservation.setClient(client);
         reservation.setRestaurant(restaurant);
-        reservation.setPaymentStatus(reservationRequestDTO.getPaymentStatus());
         reservation.setTakeawayOrder(reservationRequestDTO.isTakeawayOrder());
 
         return reservationMapper.toDTO(reservationRepository.save(reservation));
