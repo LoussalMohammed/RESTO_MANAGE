@@ -20,8 +20,8 @@ public class Payment {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "order_id", nullable = false)
-    private Order order;
+    @JoinColumn(name = "reservation_id", nullable = false)
+    private Reservation reservation;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

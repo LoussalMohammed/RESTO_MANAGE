@@ -2,6 +2,7 @@ package org.backend.restomanage.components.reservation.mapper;
 
 import lombok.RequiredArgsConstructor;
 import org.backend.restomanage.components.client.mapper.ClientMapper;
+import org.backend.restomanage.components.payment.mapper.PaymentMapper;
 import org.backend.restomanage.components.reservation.dto.request.ReservationRequestDTO;
 import org.backend.restomanage.components.reservation.dto.response.ReservationResponseDTO;
 import org.backend.restomanage.components.settings.mapper.SettingsMapper;
@@ -15,12 +16,12 @@ import org.springframework.stereotype.Component;
 public class ReservationMapper {
     private final ClientMapper clientMapper;
     private final SettingsMapper settingsMapper;
+    private final PaymentMapper paymentMapper;
 
     public Reservation toEntity(ReservationRequestDTO dto, Client client, RestaurantSettings restaurant) {
         Reservation reservation = new Reservation();
         reservation.setClient(client);
         reservation.setRestaurant(restaurant);
-        reservation.setPaymentStatus(dto.getPaymentStatus());
         reservation.setTakeawayOrder(dto.isTakeawayOrder());
         return reservation;
     }
@@ -30,8 +31,12 @@ public class ReservationMapper {
         dto.setId(reservation.getId());
         dto.setClient(clientMapper.toDTO(reservation.getClient()));
         dto.setRestaurant(settingsMapper.toDTO(reservation.getRestaurant()));
-        dto.setPaymentStatus(reservation.getPaymentStatus());
         dto.setTakeawayOrder(reservation.isTakeawayOrder());
+        
+        if (reservation.getPayment() != null) {
+            dto.setPayment(paymentMapper.toDTO(reservation.getPayment()));
+        }
+        
         return dto;
     }
 }

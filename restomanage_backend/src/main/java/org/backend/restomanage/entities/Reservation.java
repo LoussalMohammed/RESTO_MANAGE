@@ -2,7 +2,6 @@ package org.backend.restomanage.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.backend.restomanage.enums.PaymentStatus;
 
 import java.util.List;
 
@@ -22,13 +21,12 @@ public class Reservation {
     @JoinColumn(name = "restaurant_id", nullable = false)
     private RestaurantSettings restaurant;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private PaymentStatus paymentStatus;
-
     @Column(nullable = false)
     private boolean isTakeawayOrder;
 
     @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders;
+
+    @OneToOne(mappedBy = "reservation", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Payment payment;
 }
