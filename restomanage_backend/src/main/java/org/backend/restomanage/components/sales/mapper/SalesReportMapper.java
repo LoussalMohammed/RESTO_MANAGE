@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.backend.restomanage.components.sales.dto.response.SalesReportResponseDTO;
 import org.backend.restomanage.entities.Meal;
 import org.backend.restomanage.entities.SalesReport;
+import org.backend.restomanage.enums.PaymentMethod;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;

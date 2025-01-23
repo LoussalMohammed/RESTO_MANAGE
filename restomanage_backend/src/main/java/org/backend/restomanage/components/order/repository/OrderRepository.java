@@ -13,13 +13,21 @@ import java.util.List;
 public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findByReservationId(Long reservationId);
     List<Order> findByMealId(Long mealId);
+    List<Order> findByStatus(OrderStatus status);
+    
+    @Query("SELECT o FROM Order o WHERE o.reservation.restaurant.id = :restaurantId")
     List<Order> findByRestaurantId(Long restaurantId);
+    
+    @Query("SELECT o FROM Order o WHERE o.reservation.client.id = :clientId")
     List<Order> findByClientId(Long clientId);
-    List<Order> findByStaffId(Long staffId);
+    
+    @Query("SELECT o FROM Order o WHERE o.reservation.restaurant.id = :restaurantId AND o.status = :status")
     List<Order> findByRestaurantIdAndStatus(Long restaurantId, OrderStatus status);
+    
+    @Query("SELECT o FROM Order o WHERE o.reservation.client.id = :clientId AND o.reservation.restaurant.id = :restaurantId")
     List<Order> findByClientIdAndRestaurantId(Long clientId, Long restaurantId);
     
-    @Query("SELECT o FROM Order o WHERE o.restaurant.id = :restaurantId " +
+    @Query("SELECT o FROM Order o WHERE o.reservation.restaurant.id = :restaurantId " +
            "AND o.createdAt BETWEEN :startDate AND :endDate")
     List<Order> findByRestaurantIdAndDateBetween(Long restaurantId, LocalDateTime startDate, LocalDateTime endDate);
 }

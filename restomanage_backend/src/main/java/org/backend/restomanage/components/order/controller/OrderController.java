@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.backend.restomanage.components.order.dto.request.OrderRequestDTO;
 import org.backend.restomanage.components.order.dto.response.OrderResponseDTO;
 import org.backend.restomanage.components.order.service.OrderService;
+import org.backend.restomanage.enums.OrderStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -40,21 +41,20 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getOrdersByReservation(reservationId));
     }
 
-    @GetMapping("/by-meal/{mealId}")
-    public ResponseEntity<List<OrderResponseDTO>> getOrdersByMeal(@PathVariable Long mealId) {
-        return ResponseEntity.ok(orderService.getOrdersByMeal(mealId));
+    @GetMapping("/by-restaurant/{restaurantId}")
+    public ResponseEntity<List<OrderResponseDTO>> getOrdersByRestaurant(@PathVariable Long restaurantId) {
+        return ResponseEntity.ok(orderService.getOrdersByRestaurant(restaurantId));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<OrderResponseDTO> updateOrder(
+    @GetMapping("/by-client/{clientId}")
+    public ResponseEntity<List<OrderResponseDTO>> getOrdersByClient(@PathVariable Long clientId) {
+        return ResponseEntity.ok(orderService.getOrdersByClient(clientId));
+    }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<OrderResponseDTO> updateOrderStatus(
             @PathVariable Long id,
-            @Valid @RequestBody OrderRequestDTO orderRequestDTO) {
-        return ResponseEntity.ok(orderService.updateOrder(id, orderRequestDTO));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
-        orderService.deleteOrder(id);
-        return ResponseEntity.noContent().build();
+            @RequestParam OrderStatus status) {
+        return ResponseEntity.ok(orderService.updateOrderStatus(id, status));
     }
 }
