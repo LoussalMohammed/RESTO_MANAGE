@@ -10,6 +10,7 @@ import org.backend.restomanage.components.reservation.repository.ReservationRepo
 import org.backend.restomanage.entities.Meal;
 import org.backend.restomanage.entities.Order;
 import org.backend.restomanage.entities.Reservation;
+import org.backend.restomanage.enums.OrderStatus;
 import org.backend.restomanage.exception.ResourceNotFoundException;
 import org.backend.restomanage.exception.ValidationException;
 import org.springframework.data.domain.Page;
@@ -18,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -45,6 +45,9 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new ResourceNotFoundException("Reservation not found with id: " + orderRequestDTO.getReservationId()));
 
         Order order = orderMapper.toEntity(orderRequestDTO);
+        order.setMeal(meal);
+        order.setReservation(reservation);
+        order.setStatus(OrderStatus.PENDING);
         order = orderRepository.save(order);
         return orderMapper.toDTO(order);
     }
@@ -60,55 +63,38 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional(readOnly = true)
     public Page<OrderResponseDTO> getAllOrders(Pageable pageable) {
-        return orderRepository.findAll(pageable)
-                .map(orderMapper::toDTO);
+        return orderRepository.findAll(pageable).map(orderMapper::toDTO);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<OrderResponseDTO> getOrdersByReservation(Long reservationId) {
-        return orderRepository.findByReservationId(reservationId)
-                .stream()
+        return orderRepository.findByReservationId(reservationId).stream()
                 .map(orderMapper::toDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<OrderResponseDTO> getOrdersByMeal(Long mealId) {
-        return orderRepository.findByMealId(mealId)
-                .stream()
+    public List<OrderResponseDTO> getOrdersByRestaurant(Long restaurantId) {
+        return orderRepository.findByRestaurantId(restaurantId).stream()
                 .map(orderMapper::toDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
-    public OrderResponseDTO updateOrder(Long id, OrderRequestDTO orderRequestDTO) {
+    @Transactional(readOnly = true)
+    public List<OrderResponseDTO> getOrdersByClient(Long clientId) {
+        return orderRepository.findByClientId(clientId).stream()
+                .map(orderMapper::toDTO)
+                .toList();
+    }
+
+    @Override
+    public OrderResponseDTO updateOrderStatus(Long id, OrderStatus status) {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found with id: " + id));
-
-        // Validate meal
-        Meal meal = mealRepository.findById(orderRequestDTO.getMealId())
-                .orElseThrow(() -> new ResourceNotFoundException("Meal not found with id: " + orderRequestDTO.getMealId()));
-
-        if (!meal.isAvailable()) {
-            throw new ValidationException("Selected meal is not available");
-        }
-
-        // Validate reservation
-        reservationRepository.findById(orderRequestDTO.getReservationId())
-                .orElseThrow(() -> new ResourceNotFoundException("Reservation not found with id: " + orderRequestDTO.getReservationId()));
-
-        orderMapper.updateEntityFromDTO(orderRequestDTO, order);
-        order = orderRepository.save(order);
-        return orderMapper.toDTO(order);
-    }
-
-    @Override
-    public void deleteOrder(Long id) {
-        if (!orderRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Order not found with id: " + id);
-        }
-        orderRepository.deleteById(id);
+        order.setStatus(status);
+        return orderMapper.toDTO(orderRepository.save(order));
     }
 }

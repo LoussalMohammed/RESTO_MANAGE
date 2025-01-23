@@ -12,12 +12,15 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface SettingsMapper {
+    @Mapping(target = "id", ignore = true)
     BusinessHours toEntity(BusinessHoursRequestDTO dto);
     BusinessHoursResponseDTO toDTO(BusinessHours entity);
+    @Mapping(target = "id", ignore = true)
     void updateBusinessHoursFromDTO(BusinessHoursRequestDTO dto, @MappingTarget BusinessHours entity);
 
     @Mapping(target = "id", ignore = true)
-    RestaurantSettings toEntity(RestaurantSettingsRequestDTO dto);
-    RestaurantSettingsResponseDTO toDTO(RestaurantSettings entity);
-    void updateSettingsFromDTO(RestaurantSettingsRequestDTO dto, @MappingTarget RestaurantSettings entity);
+    RestaurantSettings toEntity(RestaurantSettingsRequestDTO settingsRequestDTO);
+    RestaurantSettingsResponseDTO toDTO(RestaurantSettings settings);
+    @Mapping(target = "id", ignore = true)
+    void updateSettingsFromDTO(RestaurantSettingsRequestDTO settingsRequestDTO, @MappingTarget RestaurantSettings settings);
 }
