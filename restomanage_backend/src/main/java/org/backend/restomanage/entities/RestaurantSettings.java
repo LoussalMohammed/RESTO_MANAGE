@@ -38,6 +38,9 @@ public class RestaurantSettings {
     @MapKeyEnumerated(EnumType.STRING)
     private Map<DayOfWeek, BusinessHours> businessHours = new HashMap<>();
 
+    @ManyToOne
+    private RestaurantManager restaurantManager;
+
     @Column(nullable = false)
     private int tableReservationTimeLimit = 30; // in minutes
 }
