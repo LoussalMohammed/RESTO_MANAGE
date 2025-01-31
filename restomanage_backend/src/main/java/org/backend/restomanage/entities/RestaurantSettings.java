@@ -38,7 +38,8 @@ public class RestaurantSettings {
     @MapKeyEnumerated(EnumType.STRING)
     private Map<DayOfWeek, BusinessHours> businessHours = new HashMap<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "manager_id")
     private RestaurantManager restaurantManager;
 
     @Column(nullable = false)

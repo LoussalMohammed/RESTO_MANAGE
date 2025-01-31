@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
+import java.util.ArrayList;
 import java.util.List;
 
 import java.time.LocalDateTime;
@@ -28,15 +29,23 @@ public class RestaurantManager {
     private String lastName;
 
     @Email(message = "Please provide a valid email address")
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
 
     @Pattern(regexp = "^\\+?[0-9]{8,15}$", message = "Please provide a valid phone number")
     @Column(name = "phone_number", unique = true)
     private String phoneNumber;
 
-    @OneToMany
-    private List<RestaurantSettings> restaurants;
+    @NotBlank(message = "Username is required")
+    @Column(unique = true, nullable = false)
+    private String username;
+
+    @NotBlank(message = "Password is required")
+    @Column(nullable = false)
+    private String password;
+
+    @OneToMany(mappedBy = "restaurantManager", cascade = CascadeType.ALL)
+    private List<RestaurantSettings> restaurants = new ArrayList<>();
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -53,5 +62,16 @@ public class RestaurantManager {
     @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
+    }
+
+    // Helper methods to maintain bidirectional relationship
+    public void addRestaurant(RestaurantSettings restaurant) {
+        restaurants.add(restaurant);
+        restaurant.setRestaurantManager(this);
+    }
+
+    public void removeRestaurant(RestaurantSettings restaurant) {
+        restaurants.remove(restaurant);
+        restaurant.setRestaurantManager(null);
     }
 }
