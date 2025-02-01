@@ -6,6 +6,7 @@ import org.backend.restomanage.components.manager.dto.response.RestaurantManager
 import org.backend.restomanage.components.manager.mapper.RestaurantManagerMapper;
 import org.backend.restomanage.components.manager.repository.ManagerRepository;
 import org.backend.restomanage.entities.RestaurantManager;
+import org.backend.restomanage.exception.DuplicateResourceException;
 import org.backend.restomanage.exception.ResourceNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +23,10 @@ public class ManagerServiceImpl implements ManagerService {
     @Override
     @Transactional
     public RestaurantManagerResponseDTO createManager(RestaurantManagerRequestDTO requestDTO) {
+        if (managerRepository.existsByEmail(requestDTO.getEmail())) {
+            throw new DuplicateResourceException("Email already exists");
+        }
+
         RestaurantManager manager = managerMapper.toEntity(requestDTO);
         // TODO: Add password encryption when security is implemented
         return managerMapper.toResponseDto(managerRepository.save(manager));
