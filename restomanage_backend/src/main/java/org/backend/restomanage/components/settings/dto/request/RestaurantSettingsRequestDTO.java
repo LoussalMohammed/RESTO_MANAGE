@@ -31,4 +31,7 @@ public class RestaurantSettingsRequestDTO {
 
     @Positive(message = "Table reservation time limit must be positive")
     private int tableReservationTimeLimit = 30;
+
+    @NotNull(message = "Manager Id is required")
+    private Long managerId;
 }
