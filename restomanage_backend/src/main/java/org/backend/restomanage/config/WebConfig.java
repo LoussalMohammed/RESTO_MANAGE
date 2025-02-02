@@ -3,6 +3,8 @@ package org.backend.restomanage.config;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
+import org.springframework.http.MediaType;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
@@ -39,5 +41,12 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowCredentials(true)
                 // Cache CORS configuration for 1 hour
                 .maxAge(3600L);
+    }
+
+    @Override
+    public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
+        configurer
+            .defaultContentType(MediaType.APPLICATION_JSON)
+            .mediaType("v1", MediaType.APPLICATION_JSON);
     }
 }

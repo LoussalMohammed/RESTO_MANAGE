@@ -4,18 +4,24 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import lombok.Getter;
-import lombok.Setter;
-import java.util.ArrayList;
-import java.util.List;
+import lombok.*;
+import org.backend.restomanage.security.Role;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
-@Getter
-@Setter
 @Table(name = "restaurant_managers")
-public class RestaurantManager {
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class RestaurantManager implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -44,6 +50,7 @@ public class RestaurantManager {
     @Column(nullable = false)
     private String password;
 
+    @Builder.Default
     @OneToMany(mappedBy = "restaurantManager", cascade = CascadeType.ALL)
     private List<RestaurantSettings> restaurants = new ArrayList<>();
 
@@ -73,5 +80,35 @@ public class RestaurantManager {
     public void removeRestaurant(RestaurantSettings restaurant) {
         restaurants.remove(restaurant);
         restaurant.setRestaurantManager(null);
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_" + Role.MANAGER.name()));
+    }
+
+    @Override
+    public String getUsername() {
+        return this.username; // Using username field for authentication
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }
